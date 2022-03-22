@@ -35,69 +35,50 @@ input=WebDriverWait(driver, 300).until(EC.presence_of_element_located((By.XPATH,
 time.sleep(1)
 print("Game Started!")
 
+end=0
+while end!=1 :
+    possible_words=Monomon_solver.possible_words    #Reset possible words to all possible words
+    row=3                                           #Due to html organization
+    result=""                                       #Random, in order to enter the loop.
+    guess_counter=1
 
-#Burdan alcan her tur için
+    while result != "ggggg" and guess_counter<6:
+        
+        #Guess
+        guess = Monomon_solver.bestWord(possible_words, Monomon_solver.letterFreq(possible_words))
+        input.send_keys(guess)        #to the search element send the string by typing it with keys
+        input.send_keys(Keys.RETURN)    #Press enter at the search element
+        print(f'Guess= {guess.upper()}')
+        time.sleep(1)   #Allow the result to be updated.
 
-possible_words=Monomon_solver.possible_words
+        #Result
+        result=""
+        for i in range (1,6):
+            letter_element=driver.find_element(By.XPATH, f"/html/body/div[1]/div[1]/div/div[2]/div[1]/div[{row}]/div[{i}]/div[2]")
+            letter_class=letter_element.get_attribute("class")
+            if(letter_class=="MuiBox-root css-18037ny"):
+                result+="w"
+            elif(letter_class=="MuiBox-root css-tim17a"):
+                result+="y"
+            else:
+                result+="g"
+        print(f'Result={result.upper()}')
+        row+=1
+        guess_counter+=1
 
-
-
-guess= Monomon_solver.bestWord(possible_words, Monomon_solver.letterFreq(possible_words))
-input.send_keys(guess)        #to the search element send the string by typing it with keys
-input.send_keys(Keys.RETURN)    #Press enter at the search element
-print(f'Guess={guess.upper()}')
-time.sleep(1)   #Allow the result to be updated.
-
-row=3
-result=""
-for i in range (1,6):
-    letter_element=driver.find_element(By.XPATH, f"/html/body/div[1]/div[1]/div/div[2]/div[1]/div[{row}]/div[{i}]/div[2]")
-    letter_class=letter_element.get_attribute("class")
-    if(letter_class=="MuiBox-root css-18037ny"):
-        result+="w"
-    elif(letter_class=="MuiBox-root css-tim17a"):
-        result+="y"
-    else:
-        result+="g"
-print(f'Result={result.upper()}')
-row+=1
-
-
-while result != "ggggg":
-    possible_words = Monomon_solver.word_remover(result, guess, possible_words)
-    #print(possible_words)
-    if len(possible_words) == 0:
-        break
-
-    #Guess
-    guess = Monomon_solver.bestWord(possible_words, Monomon_solver.letterFreq(possible_words))
-    input.send_keys(guess)        #to the search element send the string by typing it with keys
-    input.send_keys(Keys.RETURN)    #Press enter at the search element
-    print(f'Guess={guess.upper()}')
-    time.sleep(1)   #Allow the result to be updated.
-
-    #Result
-    result=""
-    for i in range (1,6):
-        letter_element=driver.find_element(By.XPATH, f"/html/body/div[1]/div[1]/div/div[2]/div[1]/div[{row}]/div[{i}]/div[2]")
-        letter_class=letter_element.get_attribute("class")
-        if(letter_class=="MuiBox-root css-18037ny"):
-            result+="w"
-        elif(letter_class=="MuiBox-root css-tim17a"):
-            result+="y"
-        else:
-            result+="g"
-    print(f'Result={result.upper()}')
-    row+=1
-
-time.sleep(1000)
+        #Update Possible Words Left
+        possible_words = Monomon_solver.word_remover(result, guess, possible_words)
+        print(possible_words)
+        if len(possible_words) == 0:
+            break
 
 
+time.sleep(100)
 
+
+#Bazı sözcükler eksik olabilir.
+#End game condition önemli, HP'ye bakalım
 #Do for second loop as well.
-#Counter da koyucaz 6 yanlıştan sonra canın varsa sonrakine geçiyor.
 #Export Python as exe
-#Auto exitliyor bitince, o olmamalı. Exit you win olunca olmalı 10 saniye filan da delay verip. Bitince spawnlanan: /html/body/div[2]. Bu spawnlanmadığı sürece oyna.
-
-#parent : <div class="letter MuiBox-root css-ohwg9z"><div class="MuiBox-root css-mq7g1t"></div><div class="MuiBox-root css-18037ny" style="position: absolute; inset: 0px;">a</div></div>
+#Reconnecting olunca napcaz
 
