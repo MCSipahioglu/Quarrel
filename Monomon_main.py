@@ -1,5 +1,5 @@
 #Selenium Locators: https://www.toolsqa.com/selenium-webdriver/selenium-locators/#:~:text=Selenium%20supports%208%20different%20types,fast%20methods%20of%20element%20recognition.
-#importu görmemesi iki Python yüklü olduğu ve yanlışının vscode da interpreter olarak seçili olduğu içinmiş.
+#You can simply add words to list in Monomon_solver, code handles the list just a OK.
 
 import Monomon_solver
 
@@ -82,8 +82,8 @@ try:
             if len(possible_words) == 0:
                 break
 except:
-    time.sleep(100)
-#Export Python as exe /html/body/div/div[1]/div/div[2]/div[1]/div[1]
-#Reconnecting olunca napcaz delayı arttır.
-#Bazen false ggggg buluyo
-#Bazen possible words leftten değil başka yerden guessliyor. Eksik kelimeler var bizim dictionaryde bence ondan. İmkansız oluyo
+    time.sleep(30)
+
+#Export Python as exe
+#End condition HP olmıcak, HP random 0 olabiliyo. Onun yerine end 
+#Eksik kelimeler var bizim dictionaryde bence ondan. İmkansız oluyo
