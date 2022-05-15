@@ -38,9 +38,12 @@ print("Game Started!")
 try:
     end=0
     while end!=1 :
-        HP_string=driver.find_element(By.XPATH,"/html/body/div[1]/div[1]/div/div[2]/div[1]/div[1]").get_attribute("innerText")
-        HP=int(HP_string[11:len(HP_string)-3])
-        print(HP)
+        
+        #if(driver.find_element(By.CSS_SELECTOR, "div[role='presentation']").size()!=0): #If end screen has spawned this XPath is valid.
+        #    end=1
+        
+        #print(EC.presence_of_element_located((By.CSS_SELECTOR, "div[role='presentation']")))
+        #role=presentation ara ve sizedan değil 1 0 döndüren bir şeyden bak.
 
         possible_words=Monomon_solver.possible_words    #Reset possible words to all possible words
         row=3                                           #Due to html organization
@@ -71,8 +74,8 @@ try:
             row+=1
             guess_counter+=1
 
-            if len(possible_words)<10:
-                print(f"Possible Words Left: {possible_words}")
+            #if len(possible_words)<10:
+            #    print(f"Possible Words Left: {possible_words}")
             
 
 
@@ -82,8 +85,12 @@ try:
             if len(possible_words) == 0:
                 break
 except:
+    print("An Error Occured")
     time.sleep(30)
 
-#Export Python as exe
-#End condition HP olmıcak, HP random 0 olabiliyo. Onun yerine end 
-#Eksik kelimeler var bizim dictionaryde bence ondan. İmkansız oluyo
+#Export Python as exe (Done)
+#Seleniumu headless çalıştır. (Chrome GUIsini bootlamadan)
+#End condition HP olmıcak, HP random 0 olabiliyo. Onun yerine end screeni detectlemeyi öğren. 1-0 çıktı veren bir şey lazım.
+#Eksik kelimeler var bizim dictionaryde bence ondan. Şöyle yapıcaz o wordle list ile başla (Büyükten başlarsan o olmayan kelimeyi deneyip deadloopa giriyo)
+    #Eksik kelime olması kazanmaya engel değil. Her bitince o çıkan kelime listesini al, list yap sonra: Monomon_solver.possible_words=list(set(Monomon_solver.possible_words+This_rounds_words))
+    #cast to set, add, then unique result, cast back to list and update list.

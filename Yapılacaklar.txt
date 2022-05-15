@@ -1,0 +1,3 @@
+Monomon_mainin sonunda yazıyor.
+	End condition ekle.
+	Tur sonunda çıkmış kelimelerle word listesini updateleme ekle.
